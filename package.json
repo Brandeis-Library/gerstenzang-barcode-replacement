@@ -1,0 +1,25 @@
+{
+  "name": "gerstenzang-barcode-replacement",
+  "version": "1.0.0",
+  "description": "Project to automate barcode updating in Ex Libris Alma via APIs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brandeis-Library/gerstenzang-barcode-replacement.git"
+  },
+  "keywords": [
+    "Alma",
+    "ExLibris",
+    "barcode",
+    "API"
+  ],
+  "author": "Chris Underwood Brandeis University Library",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement/issues"
+  },
+  "homepage": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement#readme"
+}
