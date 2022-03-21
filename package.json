@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement/issues"
   },
-  "homepage": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement#readme"
+  "homepage": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement#readme",
+  "dependencies": {
+    "xlsx": "^0.18.4"
+  }
 }
