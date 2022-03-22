@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/Brandeis-Library/gerstenzang-barcode-replacement#readme",
   "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "xlsx": "^0.18.4"
   }
 }
