@@ -11,21 +11,20 @@ const axios = require("axios");
 
   var df = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex - 1]]);
   console.log("df--------------- ", df);
+  await df.forEach(async (item, index, df) => {
+    //item retrieve query to Alma backend. API URL, Item Barcode, and APIKEY
 
-  //item retrieve query to Alma backend. API URL, Item Barcode, and APIKEY
-  try {
     //const barcode = req.body.barcode.text;
-    const barcode = "0123500549712";
-
+    console.log("barcode: ", item.Barcode);
     const { data } = await axios.get(
       process.env.DEV_EXLIBRIS_API_ROOT +
         process.env.DEV_EXLIBRIS_API_PATH +
-        barcode +
+        item.Barcode +
         "&apikey=" +
         process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
         "&expand=p_avail",
     );
-    console.log("data -----   ", data);
+    // console.log("data -----   ", data);
 
     //item update query to Alma backend. API URL, Item Barcode, and APIKEY
 
@@ -35,7 +34,9 @@ const axios = require("axios");
       "******************************************************",
     );
     const dataObj = data;
-    dataObj.item_data.internal_note_2 = "Updating item note 2.";
+
+    dataObj.item_data.internal_note_2 = " ";
+    dataObj.item_data.barcode = item["Scanned Barcode"];
     const info = await axios.put(
       process.env.DEV_EXLIBRIS_API_ROOT +
         "/almaws/v1/bibs/" +
@@ -49,9 +50,7 @@ const axios = require("axios");
       dataObj,
     );
     console.log("data2 --------", info.data);
-  } catch (error) {
-    console.error(error.message);
-  }
+  });
 
   console.log("Can you see me now?");
 })();
