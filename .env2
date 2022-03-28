@@ -1,0 +1,13 @@
+
+# production
+EXLIBRIS_API_ROOT="some url"
+EXLIBRIS_API_PATH="some url string"
+EXLIBRIS_API_BIB_GET_KEY="some API key"
+EXLIBRIS_API_BIB_UPDATE_KEY="some API key"
+
+# sandbox
+DEV_EXLIBRIS_API_ROOT="some url"
+DEV_EXLIBRIS_API_PATH="some url string"
+DEV_EXLIBRIS_API_BIB_GET_KEY="some API key"
+DEV_EXLIBRIS_API_BIB_UPDATE_KEY="some API key"
+                                 
