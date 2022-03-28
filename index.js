@@ -19,7 +19,8 @@ const axios = require("axios");
     const { data } = await axios.get(
       process.env.DEV_EXLIBRIS_API_ROOT +
         process.env.DEV_EXLIBRIS_API_PATH +
-        item.Barcode +
+        //item.Barcode +
+        item["Scanned Barcode"] +
         "&apikey=" +
         process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
         "&expand=p_avail",
@@ -35,8 +36,9 @@ const axios = require("axios");
     );
     const dataObj = data;
 
-    dataObj.item_data.internal_note_2 = " ";
-    dataObj.item_data.barcode = item["Scanned Barcode"];
+    dataObj.item_data.internal_note_3 = " ";
+    //dataObj.item_data.barcode = item["Scanned Barcode"];
+    dataObj.item_data.barcode = item.Barcode;
     const info = await axios.put(
       process.env.DEV_EXLIBRIS_API_ROOT +
         "/almaws/v1/bibs/" +
