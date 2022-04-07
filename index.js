@@ -51,7 +51,7 @@ const axios = require("axios");
 
   // Write data at the top of the dataObjsRealtime.js.
   await fs.createWriteStream("./dataObjsRealtime.js", { flags: "a" }).write(`module.exports = {
-    foundDataObjs: { \n`);
+    foundDataObjs: [ \n`);
 
   // Write data at the top of the urlsSearched.txt.
   await fs.createWriteStream("./urlsSearched.txt", { flags: "a" }).write(`"URLs", \n`);
@@ -101,7 +101,7 @@ const axios = require("axios");
         // Write data at the top of the urlsSearched.js.
         await fs
           .createWriteStream("./dataObjsRealtime.js", { flags: "a" })
-          .write(`"${bCode}": ${JSON.stringify(data)}, \n`);
+          .write(`["${bCode}"], ${JSON.stringify(data)}], \n`);
 
         //firstLoop.push(data);
       } catch (error) {
@@ -150,7 +150,7 @@ const axios = require("axios");
       }
     }
     //await fs.createWriteStream("./firstLoopData.js", { flags: "a" }).write(`${firstLoop}`);
-    await fs.createWriteStream("./dataObjsRealtime.js", { flags: "a" }).write(`}} \n`);
+    await fs.createWriteStream("./dataObjsRealtime.js", { flags: "a" }).write(`]} \n`);
   } catch (error) {
     await fs
       .createWriteStream("./errorLog.csv", { flags: "a" })
