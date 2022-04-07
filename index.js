@@ -101,7 +101,7 @@ const axios = require("axios");
         // Write data at the top of the urlsSearched.js.
         await fs
           .createWriteStream("./dataObjsRealtime.js", { flags: "a" })
-          .write(`["${bCode}"], ${JSON.stringify(data)}], \n`);
+          .write(`["${bCode}", ${JSON.stringify(data)}], \n`);
 
         //firstLoop.push(data);
       } catch (error) {
