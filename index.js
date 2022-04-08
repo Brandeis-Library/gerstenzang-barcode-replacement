@@ -64,14 +64,14 @@ const axios = require("axios");
   var df = await XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex - 1]]);
   console.log("df--------------- ", df);
   try {
-    //const dataObjs = await df.forEach(async (item, index, df) => {
     //item retrieve query to Alma backend. API URL, Item Barcode, and APIKEY
-    //const barcode = req.body.barcode.text;
-    //console.log("barcode: ", item.Barcode);
-    //const firstLoop = [];
+
     for (let x = 0; x < df.length; x++) {
       try {
         const item = df[x];
+
+        const bCode = item.Barcode;
+        const newbCode = item["Scanned Barcode"];
         console.log("item ----", item);
         console.log("item.Barcode ----", item.Barcode);
         console.log('item["Scanned Barcode"] ----', item["Scanned Barcode"]);
@@ -79,8 +79,8 @@ const axios = require("axios");
           "URL to be searched--- ",
           process.env.DEV_EXLIBRIS_API_ROOT +
             process.env.DEV_EXLIBRIS_API_PATH +
-            item.Barcode +
-            //item["Scanned Barcode"] +
+            //item.Barcode +
+            item["Scanned Barcode"] +
             "&apikey=" +
             process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
             "&expand=p_avail",
@@ -88,26 +88,19 @@ const axios = require("axios");
         const { data } = await axios.get(
           process.env.DEV_EXLIBRIS_API_ROOT +
             process.env.DEV_EXLIBRIS_API_PATH +
-            item.Barcode +
-            //tem["Scanned Barcode"] +
+            //item.Barcode +
+            item["Scanned Barcode"] +
             "&apikey=" +
             process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
             "&expand=p_avail",
         );
-        console.log("data", data);
-        const bCode = data.item_data.barcode;
-        const newbCode = item["Scanned Barcode"];
+        //console.log("data", data);
         // Write data at the top of the urlsSearched.js.
         await fs
           .createWriteStream("./dataObjsRealtime.js", { flags: "a" })
-          .write(`["${bCode}", ${JSON.stringify(data)}], ${newbCode}, \n`);
+          .write(`["${bCode}", ${JSON.stringify(data)}, ${newbCode}], \n`);
       } catch (error) {
         //item update query to Alma backend. API URL, Item Barcode, and APIKEY
-        // console.log(
-        //   "****************************************************",
-        //   data,
-        //   "******************************************************",
-        // );
         // const dataObj = data;
         // //let resolvedData = await Promise.all(data);
         // // //dataObj.item_data.internal_note_3 = " ";

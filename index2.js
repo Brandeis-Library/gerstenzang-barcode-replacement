@@ -25,7 +25,9 @@ const fs = require("fs");
 
     for (let x = 0; x < foundDataObjs.length; x++) {
       const item = foundDataObjs[x];
-      console.log("item ---------  ", item[0], "\n ");
+      console.log("item current ---------  ", item[0], "\n ");
+      //console.log("item current obj ---------  ", item[1], "\n ");
+      console.log("item next ---------  ", item[2], "\n ");
     }
   } catch (error) {
     // let barcode = error.config.url;
