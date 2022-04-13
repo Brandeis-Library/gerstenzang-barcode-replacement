@@ -49,21 +49,22 @@ const axios = require("axios");
 
       console.log("updated item with new barcode -- ", item[1].item_data);
 
-      //const info = await axios.put(
-      //   process.env.DEV_EXLIBRIS_API_ROOT +
-      //     "/almaws/v1/bibs/" +
-      //     dataObj.bib_data.mms_id +
-      //     "/holdings/" +
-      //     dataObj.holding_data.holding_id +
-      //     "/items/" +
-      //     dataObj.item_data.pid +
-      //     "?apikey=" +
-      //     process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
-      //   item[1],
-      // );
+      const info = await axios.put(
+        process.env.DEV_EXLIBRIS_API_ROOT +
+          "/almaws/v1/bibs/" +
+          item[1].bib_data.mms_id +
+          "/holdings/" +
+          item[1].holding_data.holding_id +
+          "/items/" +
+          item[1].item_data.pid +
+          "?apikey=" +
+          process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+        item[1],
+      );
+      console.table(info);
     }
   } catch (error) {
-    let barcode = error.config.url;
+    let barcode = error.config;
     // barcode = barcode.substr(69, 30);
     // const barcodeIndex = barcode.indexOf("&api");
     // barcode = barcode.slice(0, barcodeIndex);
