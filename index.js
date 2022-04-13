@@ -106,18 +106,7 @@ const axios = require("axios");
         // // //dataObj.item_data.internal_note_3 = " ";
         // dataObj.item_data.barcode = item["Scanned Barcode"];
         // // //dataObj.item_data.barcode = item.Barcode;
-        // const info = await axios.put(
-        //   process.env.DEV_EXLIBRIS_API_ROOT +
-        //     "/almaws/v1/bibs/" +
-        //     dataObj.bib_data.mms_id +
-        //     "/holdings/" +
-        //     dataObj.holding_data.holding_id +
-        //     "/items/" +
-        //     dataObj.item_data.pid +
-        //     "?apikey=" +
-        //     process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
-        //   dataObj,
-        // );
+
         // console.log("data2 --------", info.data);
         let barcode = error.config.url;
         barcode = barcode.substr(69, 30);

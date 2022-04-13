@@ -1,4 +1,7 @@
 const fs = require("fs");
+const dotenv = require("dotenv");
+dotenv.config();
+const axios = require("axios");
 
 (async function () {
   try {
@@ -25,21 +28,52 @@ const fs = require("fs");
 
     for (let x = 0; x < foundDataObjs.length; x++) {
       const item = foundDataObjs[x];
-      console.log("item current ---------  ", item[0], "\n ");
+      console.log("item current ---------  ", item[0], "");
       //console.log("item current obj ---------  ", item[1], "\n ");
-      console.log("item next ---------  ", item[2], "\n ");
+      console.log("item next ---------  ", item[2]);
+      console.log(
+        "url---- ",
+        process.env.DEV_EXLIBRIS_API_ROOT +
+          "/almaws/v1/bibs/" +
+          item[1].bib_data.mms_id +
+          "/holdings/" +
+          item[1].holding_data.holding_id +
+          "/items/" +
+          item[1].item_data.pid +
+          "?apikey=" +
+          process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+        "\n",
+      );
+
+      item[1].item_data.barcode = item[2];
+
+      console.log("updated item with new barcode -- ", item[1].item_data);
+
+      //const info = await axios.put(
+      //   process.env.DEV_EXLIBRIS_API_ROOT +
+      //     "/almaws/v1/bibs/" +
+      //     dataObj.bib_data.mms_id +
+      //     "/holdings/" +
+      //     dataObj.holding_data.holding_id +
+      //     "/items/" +
+      //     dataObj.item_data.pid +
+      //     "?apikey=" +
+      //     process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+      //   item[1],
+      // );
     }
   } catch (error) {
-    // let barcode = error.config.url;
+    let barcode = error.config.url;
     // barcode = barcode.substr(69, 30);
     // const barcodeIndex = barcode.indexOf("&api");
     // barcode = barcode.slice(0, barcodeIndex);
 
     // console.log("barcode -- ", barcode, `\n`);
     console.error(error);
+
     await fs
       .createWriteStream("./errorLog.csv", { flags: "a" })
-      .write(`{barcode}, ${error.message}, Loop, \n`);
+      .write(`${barcode}, ${error.message}, Loop, \n`);
 
     // console.error(
     //   "#######################################################################################################################################################",
