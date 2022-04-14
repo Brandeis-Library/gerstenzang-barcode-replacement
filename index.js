@@ -77,21 +77,21 @@ const axios = require("axios");
         console.log('item["Scanned Barcode"] ----', item["Scanned Barcode"]);
         console.log(
           "URL to be searched--- ",
-          process.env.DEV_EXLIBRIS_API_ROOT +
-            process.env.DEV_EXLIBRIS_API_PATH +
+          process.env.EXLIBRIS_API_ROOT +
+            process.env.EXLIBRIS_API_PATH +
             item.Barcode +
             //item["Scanned Barcode"] +
             "&apikey=" +
-            process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
+            process.env.EXLIBRIS_API_BIB_GET_KEY +
             "&expand=p_avail",
         );
         const { data } = await axios.get(
-          process.env.DEV_EXLIBRIS_API_ROOT +
-            process.env.DEV_EXLIBRIS_API_PATH +
+          process.env.EXLIBRIS_API_ROOT +
+            process.env.EXLIBRIS_API_PATH +
             item.Barcode +
             //item["Scanned Barcode"] +
             "&apikey=" +
-            process.env.DEV_EXLIBRIS_API_BIB_GET_KEY +
+            process.env.EXLIBRIS_API_BIB_GET_KEY +
             "&expand=p_avail",
         );
         //console.log("data", data);
