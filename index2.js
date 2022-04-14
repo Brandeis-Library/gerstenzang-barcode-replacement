@@ -74,7 +74,6 @@ const axios = require("axios");
       await fs
         .createWriteStream("./dataObjsRealtime2.js", { flags: "a" })
         .write(`["${info.data.item_data.barcode}", ${JSON.stringify(info.data)}, ${item[0]}], \n`);
-      //console.table(info);
     }
   } catch (error) {
     let barcode = error.config.data;
@@ -88,12 +87,6 @@ const axios = require("axios");
     await fs
       .createWriteStream("./errorLog2.csv", { flags: "a" })
       .write(`${barcode}, ${error.message}, Loop, \n`);
-
-    // console.error(
-    //   "#######################################################################################################################################################",
-    //   error.config.url,
-    //   `\n`,
-    // );
   }
   await fs.createWriteStream("./dataObjsRealtime2.js", { flags: "a" }).write(`]} \n`);
 })();
