@@ -8,23 +8,32 @@ const axios = require("axios");
     // brings in the found objects from indexjs
     const { foundDataObjs } = require("./dataObjsRealTime.js");
 
+    // Ensure creation of dataObjsRealtime2.js before truncating
+    await fs.appendFile("./dataObjsRealtime2.js", "", function (err) {
+      if (err) throw err;
+      console.log("Saved ./dataObjsRealtime2.js");
+    });
+
     // Ensure creation of errorLog2.txt before truncating
     await fs.appendFile("./errorLog2.csv", "", function (err) {
       if (err) throw err;
       console.log("Saved errorLog2.csv");
     });
 
+    // Truncate dataObjsRealtime2.js before writing logs
+    await fs.truncateSync("./dataObjsRealtime2.js");
+
     // Truncate errorLog2.txt before writing logs
     await fs.truncateSync("./errorLog2.csv");
+
+    // Write data at the top of the dataObjsRealtime2.js.
+    await fs.createWriteStream("./dataObjsRealtime2.js", { flags: "a" }).write(`module.exports = {
+    foundDataObjs: [ \n`);
 
     // Write erros at the top of errorLog2.csv.
     await fs
       .createWriteStream("./errorLog2.csv", { flags: "a" })
       .write(`Barcode, Error Message, Error Block, \n`);
-
-    // for await (const property of foundDataObjs) {
-    //   console.log("property  ", JSON.stringify(property));
-    // }
 
     for (let x = 0; x < foundDataObjs.length; x++) {
       const item = foundDataObjs[x];
@@ -47,7 +56,7 @@ const axios = require("axios");
 
       item[1].item_data.barcode = item[2];
 
-      console.log("updated item with new barcode -- ", item[1].item_data);
+      //console.log("updated item with new barcode -- ", item[1].item_data);
 
       const info = await axios.put(
         process.env.DEV_EXLIBRIS_API_ROOT +
@@ -61,19 +70,23 @@ const axios = require("axios");
           process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
         item[1],
       );
-      console.table(info);
+      // Write data at the top of the dataObjsRealtime.js.
+      await fs
+        .createWriteStream("./dataObjsRealtime2.js", { flags: "a" })
+        .write(`["${info.data.item_data.barcode}", ${JSON.stringify(info.data)}, ${item[0]}], \n`);
+      //console.table(info);
     }
   } catch (error) {
-    let barcode = error.config;
-    // barcode = barcode.substr(69, 30);
-    // const barcodeIndex = barcode.indexOf("&api");
-    // barcode = barcode.slice(0, barcodeIndex);
+    let barcode = error.config.data;
+    barcode = JSON.stringify(barcode);
+    const barcodeIndex = barcode.indexOf("barcode");
+    barcode = barcode.slice(barcodeIndex + 10, barcodeIndex + 24);
 
-    // console.log("barcode -- ", barcode, `\n`);
-    console.error(error);
+    // console.error(error);
+    console.log("barcodeIndex ***********  ", barcodeIndex);
 
     await fs
-      .createWriteStream("./errorLog.csv", { flags: "a" })
+      .createWriteStream("./errorLog2.csv", { flags: "a" })
       .write(`${barcode}, ${error.message}, Loop, \n`);
 
     // console.error(
@@ -82,4 +95,5 @@ const axios = require("axios");
     //   `\n`,
     // );
   }
+  await fs.createWriteStream("./dataObjsRealtime2.js", { flags: "a" }).write(`]} \n`);
 })();
