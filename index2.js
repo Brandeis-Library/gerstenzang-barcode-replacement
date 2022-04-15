@@ -36,44 +36,60 @@ const axios = require("axios");
       .write(`Barcode, Error Message, Error Block, \n`);
 
     for (let x = 0; x < foundDataObjs.length; x++) {
-      const item = foundDataObjs[x];
-      console.log("item current ---------  ", item[0], "");
-      //console.log("item current obj ---------  ", item[1], "\n ");
-      console.log("item next ---------  ", item[2]);
-      console.log(
-        "url---- ",
-        process.env.DEV_EXLIBRIS_API_ROOT +
-          "/almaws/v1/bibs/" +
-          item[1].bib_data.mms_id +
-          "/holdings/" +
-          item[1].holding_data.holding_id +
-          "/items/" +
-          item[1].item_data.pid +
-          "?apikey=" +
-          process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
-        "\n",
-      );
+      try {
+        const item = foundDataObjs[x];
+        console.log("item current ---------  ", item[0], "");
+        //console.log("item current obj ---------  ", item[1], "\n ");
+        console.log("item next ---------  ", item[2]);
+        console.log(
+          "url---- ",
+          process.env.DEV_EXLIBRIS_API_ROOT +
+            "/almaws/v1/bibs/" +
+            item[1].bib_data.mms_id +
+            "/holdings/" +
+            item[1].holding_data.holding_id +
+            "/items/" +
+            item[1].item_data.pid +
+            "?apikey=" +
+            process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+          "\n",
+        );
 
-      item[1].item_data.barcode = item[2];
+        item[1].item_data.barcode = item[2];
 
-      //console.log("updated item with new barcode -- ", item[1].item_data);
+        //console.log("updated item with new barcode -- ", item[1].item_data);
 
-      const info = await axios.put(
-        process.env.DEV_EXLIBRIS_API_ROOT +
-          "/almaws/v1/bibs/" +
-          item[1].bib_data.mms_id +
-          "/holdings/" +
-          item[1].holding_data.holding_id +
-          "/items/" +
-          item[1].item_data.pid +
-          "?apikey=" +
-          process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
-        item[1],
-      );
-      // Write data at the top of the dataObjsRealtime.js.
-      await fs
-        .createWriteStream("./dataObjsRealtime2.js", { flags: "a" })
-        .write(`["${info.data.item_data.barcode}", ${JSON.stringify(info.data)}, ${item[0]}], \n`);
+        const info = await axios.put(
+          process.env.DEV_EXLIBRIS_API_ROOT +
+            "/almaws/v1/bibs/" +
+            item[1].bib_data.mms_id +
+            "/holdings/" +
+            item[1].holding_data.holding_id +
+            "/items/" +
+            item[1].item_data.pid +
+            "?apikey=" +
+            process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+          item[1],
+        );
+        // Write data at the top of the dataObjsRealtime.js.
+        await fs
+          .createWriteStream("./dataObjsRealtime2.js", { flags: "a" })
+          .write(
+            `["${info.data.item_data.barcode}", ${JSON.stringify(info.data)}, ${item[0]}], \n`,
+          );
+      } catch (error) {
+        let barcode = error.config.data;
+        barcode = JSON.stringify(barcode);
+        const barcodeIndex = barcode.indexOf("barcode");
+        barcode = barcode.slice(barcodeIndex + 10, barcodeIndex + 24);
+
+        // console.error(error);
+        console.log("barcodeIndex ***********  ", barcodeIndex);
+
+        await fs
+          .createWriteStream("./errorLog2.csv", { flags: "a" })
+          .write(`${barcode}, ${error.message}, Loop, \n`);
+      }
     }
   } catch (error) {
     let barcode = error.config.data;
@@ -86,7 +102,7 @@ const axios = require("axios");
 
     await fs
       .createWriteStream("./errorLog2.csv", { flags: "a" })
-      .write(`${barcode}, ${error.message}, Loop, \n`);
+      .write(`${barcode}, ${error.message}, Main, \n`);
   }
   await fs.createWriteStream("./dataObjsRealtime2.js", { flags: "a" }).write(`]} \n`);
 })();
