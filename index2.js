@@ -43,7 +43,7 @@ const axios = require("axios");
         console.log("item next ---------  ", item[2]);
         console.log(
           "url---- ",
-          process.env.DEV_EXLIBRIS_API_ROOT +
+          process.env.EXLIBRIS_API_ROOT +
             "/almaws/v1/bibs/" +
             item[1].bib_data.mms_id +
             "/holdings/" +
@@ -51,7 +51,7 @@ const axios = require("axios");
             "/items/" +
             item[1].item_data.pid +
             "?apikey=" +
-            process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+            process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
           "\n",
         );
 
@@ -60,7 +60,7 @@ const axios = require("axios");
         //console.log("updated item with new barcode -- ", item[1].item_data);
 
         const info = await axios.put(
-          process.env.DEV_EXLIBRIS_API_ROOT +
+          process.env.EXLIBRIS_API_ROOT +
             "/almaws/v1/bibs/" +
             item[1].bib_data.mms_id +
             "/holdings/" +
@@ -68,7 +68,7 @@ const axios = require("axios");
             "/items/" +
             item[1].item_data.pid +
             "?apikey=" +
-            process.env.DEV_EXLIBRIS_API_BIB_UPDATE_KEY,
+            process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
           item[1],
         );
         // Write data at the top of the dataObjsRealtime.js.
