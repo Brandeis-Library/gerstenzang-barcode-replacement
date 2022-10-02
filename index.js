@@ -32,7 +32,7 @@ const axios = require("axios");
   await fs.createWriteStream("./dataObjsRealtime.js", { flags: "a" }).write(`module.exports = {
     foundDataObjs: [ \n`);
 
-  const workbook = await XLSX.readFile("TestData6.csv", { raw: true });
+  const workbook = await XLSX.readFile("TestData7.csv", { raw: true });
   const sheetNames = workbook.SheetNames;
   const sheetIndex = 1;
 
@@ -52,21 +52,21 @@ const axios = require("axios");
         console.log(
           "URL to be searched--- ",
           process.env.EXLIBRIS_API_ROOT +
-            process.env.EXLIBRIS_API_PATH +
-            item.Barcode +
-            //item["Scanned Barcode"] +
-            "&apikey=" +
-            process.env.EXLIBRIS_API_BIB_GET_KEY +
-            "&expand=p_avail",
+          process.env.EXLIBRIS_API_PATH +
+          item.Barcode +
+          //item["Scanned Barcode"] +
+          "&apikey=" +
+          process.env.EXLIBRIS_API_BIB_GET_KEY +
+          "&expand=p_avail",
         );
         const { data } = await axios.get(
           process.env.EXLIBRIS_API_ROOT +
-            process.env.EXLIBRIS_API_PATH +
-            item.Barcode +
-            //item["Scanned Barcode"] +
-            "&apikey=" +
-            process.env.EXLIBRIS_API_BIB_GET_KEY +
-            "&expand=p_avail",
+          process.env.EXLIBRIS_API_PATH +
+          item.Barcode +
+          //item["Scanned Barcode"] +
+          "&apikey=" +
+          process.env.EXLIBRIS_API_BIB_GET_KEY +
+          "&expand=p_avail",
         );
 
         // Write data at the top of the dataObjsRealtime.js.
