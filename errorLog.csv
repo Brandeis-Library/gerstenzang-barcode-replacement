@@ -1,2 +1,4 @@
 Barcode, Error Message, Error Block, 
-0123501412936, connect ETIMEDOUT 64.74.237.221:443, Loop, 
+0123500758321, connect ETIMEDOUT 64.74.237.221:443, Loop, 
+0123500372693, Request failed with status code 400, Loop, 
+0123500960620, Request failed with status code 400, Loop, 
