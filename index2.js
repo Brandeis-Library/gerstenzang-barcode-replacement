@@ -44,14 +44,14 @@ const axios = require("axios");
         console.log(
           "url---- ",
           process.env.EXLIBRIS_API_ROOT +
-            "/almaws/v1/bibs/" +
-            item[1].bib_data.mms_id +
-            "/holdings/" +
-            item[1].holding_data.holding_id +
-            "/items/" +
-            item[1].item_data.pid +
-            "?apikey=" +
-            process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
+          "/almaws/v1/bibs/" +
+          item[1].bib_data.mms_id +
+          "/holdings/" +
+          item[1].holding_data.holding_id +
+          "/items/" +
+          item[1].item_data.pid +
+          "?apikey=" +
+          process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
           "\n",
         );
 
@@ -61,14 +61,14 @@ const axios = require("axios");
 
         const info = await axios.put(
           process.env.EXLIBRIS_API_ROOT +
-            "/almaws/v1/bibs/" +
-            item[1].bib_data.mms_id +
-            "/holdings/" +
-            item[1].holding_data.holding_id +
-            "/items/" +
-            item[1].item_data.pid +
-            "?apikey=" +
-            process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
+          "/almaws/v1/bibs/" +
+          item[1].bib_data.mms_id +
+          "/holdings/" +
+          item[1].holding_data.holding_id +
+          "/items/" +
+          item[1].item_data.pid +
+          "?apikey=" +
+          process.env.EXLIBRIS_API_BIB_UPDATE_KEY,
           item[1],
         );
         // Write data at the top of the dataObjsRealtime.js.
@@ -92,6 +92,7 @@ const axios = require("axios");
       }
     }
   } catch (error) {
+
     let barcode = error.config.data;
     barcode = JSON.stringify(barcode);
     const barcodeIndex = barcode.indexOf("barcode");
